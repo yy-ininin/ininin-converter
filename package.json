@@ -1,6 +1,6 @@
 {
   "name": "ininin-converter",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "字符串或数字转半角，字符串或数字转全角，解析键值对字符串为Hash对象，编码Hash对象为键值对字符串",
   "main": "index.js",
   "scripts": {
