@@ -1,0 +1,22 @@
+{
+  "name": "ininin-converter",
+  "version": "1.0.0",
+  "description": "字符串或数字转半角，字符串或数字转全角，解析键值对字符串为Hash对象，编码Hash对象为键值对字符串",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yy-ininin/ininin-converter.git"
+  },
+  "keywords": [
+    "字符串或数字转半角，字符串或数字转全角，解析键值对字符串为Hash对象，编码Hash对象为键值对字符串"
+  ],
+  "author": "ininin.com",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yy-ininin/ininin-converter/issues"
+  },
+  "homepage": "https://github.com/yy-ininin/ininin-converter#readme"
+}
