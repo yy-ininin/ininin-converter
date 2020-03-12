@@ -4,10 +4,10 @@
 # install
 npm i ininin-converter
 
-#github
+# github
 https://github.com/yy-ininin/ininin-converter
 
-#usage
+# usage
 ```javascript
 import converter from 'ininin-converter'
 
