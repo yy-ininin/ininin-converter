@@ -28,4 +28,30 @@ converter.decodeHashString(str3)
 const str4 = { v: '1.0.0', name: 'converter' }
 converter.encodeHashString(str4)
 // v=1.0.0&name=converter
-```
+
+/* 1:首字母大写  2：首页母小写  3：大小写转换  4：全部大写  5：全部小写  默认 */
+
+/* 首字母大写 */
+const str4 = "aaaa"
+converter.changeCase(str4, 1)
+// Aaaa
+
+/* 首页母小写 */
+const str5 = "AAAA"
+converter.changeCase(str4, 2)
+// aAAA
+
+/* 大小写转换 */
+const str6 = "AAAAaaaa"
+converter.changeCase(str4, 3)
+// aaaaAAAA
+
+/* 全部大写 */
+const str7 = "aaaaa"
+converter.changeCase(str4, 4)
+// AAAAA
+
+/* 全部小写 */
+const str8 = "AAAA"
+converter.changeCase(str4, 5)
+// aaaa

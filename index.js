@@ -16,7 +16,7 @@
 module.exports = {
     /** 首字母大写 / 首页母小写 / 大小写转换 / 全部大写 / 全部小写
      * @param  {str} 必选，字符串
-     * @param  {type} type:  1:首字母大写  2：首页母小写  3：大小写转换  4：全部大写  5：全部小写
+     * @param  {type} type:  1:首字母大写  2：首页母小写  3：大小写转换  4：全部大写  5：全部小写 默认4
      * @return {String} 转换后的字符串
      */
     changeCase(str, type) {
