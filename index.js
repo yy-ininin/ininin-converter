@@ -8,7 +8,7 @@
  * @constructor
  *-------------------------
  * @author shlijian@ininin.com
- * @version 1.1.1
+ * @version 1.1.11
  * @since 2020/3/13
  * @description 添加首字母大写 / 首页母小写 / 大小写转换 / 全部大写 / 全部小写
  */
