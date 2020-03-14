@@ -54,6 +54,24 @@ module.exports = {
       }
     },
     /**
+     * 首页母小写
+     * @method toFirstLowerCase
+     * @param {String} str 必选，字符串
+     * @returns {String} 转换后的字符串
+     */
+    toFirstLowerCase(str) {
+        return str;
+    },
+    /**
+     * 首字母大写
+     * @method toFirstUpperCase
+     * @param {String} str 必选，字符串
+     * @returns {String} 转换后的字符串
+     */
+    toFirstUpperCase(str) {
+        return str;
+    },
+    /**
      * 字符串或数字转半角
      * @method decodeHashString
      * @param {String} str 必选，字符串
@@ -149,6 +167,14 @@ module.exports = {
         }
       }
       return arr.join(sign == null ? "&" : sign);
+    },
+    /**
+     * 人民币大写
+     * @method rmbUpperCase
+     * @param {String} str 必选，字符串
+     * @returns {String} 转换后的字符串
+     */
+    rmbUpperCase(str) {
+        return str;
     }
   };
-  
