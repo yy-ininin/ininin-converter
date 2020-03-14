@@ -40,6 +40,28 @@ converter.toFirstLowerCase(str6)
 // aAAA
 
 /* 去除字符串中所有空格 */
-let str1 = " A A "
-validator.trimAll(str1, 1)
+let str7 = " A A "
+converter.trimAll(str7, 1)
 // "AA"
+
+/* 货币格式化 */
+converter.currency(123456789, '¥', 2)
+// ¥123,456,789.00
+
+/* 地址格式化 */
+let str8 = "上海市^上海市^闵行区^七宝街道"
+converter.location(str8, 4, "^")
+// "上海市闵行区七宝街道"
+
+/* 过滤掉值为空字符的参数 */
+let str9 = {name: '你好', value: '', id: 1, code: '', age: '23', nobby: ['吃饭', '打游戏']}
+converter.filterNullCharacter(str9, true)
+// { name: '你好', id: 1, age: '23', nobby: [ '吃饭', '打游戏' ] }
+
+/* 人民币大写 */
+let str10 = 123456789.11
+converter.rmbUpperCase(str10)
+// 壹亿贰仟叁佰肆拾伍万陆仟柒佰捌拾玖元壹分
+let str11 = -123456789.11
+converter.rmbUpperCase(str11)
+//欠壹亿贰仟叁佰肆拾伍万陆仟柒佰捌拾玖元壹角壹分

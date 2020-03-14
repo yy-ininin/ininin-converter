@@ -10,44 +10,10 @@
  * @author shlijian@ininin.com
  * @version 1.1.1
  * @since 2020/3/14
- * @description 添加首字母大写 / 首页母小写 / 去除字符串中所有空格
+ * @description 添加首字母大写 / 首页母小写 / 去除字符串中所有空格 / 地址格式化 / 货币格式化 / 过滤掉值为空字符的参数 / 人民币大写 
  */
 
 module.exports = {
-  /**
-   * 去除字符串中所有空格
-   * @param  {str}  str 字符串 必填
-   * @return {String} 字符串
-   */
-  trimAll(str) {
-    return str.replace(/\s+/g, "");
-  },
-  /**
-   * 首页母小写
-   * @method toFirstLowerCase
-   * @param {String} str 必选，字符串
-   * @returns {String} 转换后的字符串
-   */
-  toFirstLowerCase(str) {
-    return str.replace(/\b\w+\b/g, function(word) {
-      return (
-        word.substring(0, 1).toLowerCase() + word.substring(1).toUpperCase()
-      );
-    });
-  },
-  /**
-   * 首字母大写
-   * @method toFirstUpperCase
-   * @param {String} str 必选，字符串
-   * @returns {String} 转换后的字符串
-   */
-  toFirstUpperCase(str) {
-    return str.replace(/\b\w+\b/g, function(word) {
-      return (
-        word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()
-      );
-    });
-  },
   /**
    * 字符串或数字转半角
    * @method decodeHashString
@@ -146,12 +112,152 @@ module.exports = {
     return arr.join(sign == null ? "&" : sign);
   },
   /**
-   * 人民币大写
-   * @method rmbUpperCase
+   * 去除字符串中所有空格
+   * @method trimAll
+   * @param  {str}  str 字符串 必填
+   * @return {String} 字符串
+   */
+  trimAll(str) {
+    return str.replace(/\s+/g, "");
+  },
+  /**
+   * 首页母小写
+   * @method toFirstLowerCase
    * @param {String} str 必选，字符串
    * @returns {String} 转换后的字符串
    */
-  rmbUpperCase(str) {
-    return str;
+  toFirstLowerCase(str) {
+    return str.replace(/\b\w+\b/g, function(word) {
+      return (
+        word.substring(0, 1).toLowerCase() + word.substring(1).toUpperCase()
+      );
+    });
+  },
+  /**
+   * 首字母大写
+   * @method toFirstUpperCase
+   * @param {String} str 必选，字符串
+   * @returns {String} 转换后的字符串
+   */
+  toFirstUpperCase(str) {
+    return str.replace(/\b\w+\b/g, function(word) {
+      return (
+        word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()
+      );
+    });
+  },
+  /**
+   * 人民币大写
+   * @method rmbUpperCase
+   * @param {String} str 必选 阿拉伯数字金额
+   * @returns {String} 大写金额
+   */
+  rmbUpperCase(value) {
+    let fraction = ["角", "分"]; // 小数
+    let digit = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"]; //数字
+    let unit = [
+      ["元", "万", "亿"],
+      ["", "拾", "佰", "仟"]
+    ]; // 单位 
+    let head = value < 0 ? "欠" : ""; // 正负
+    n = Math.abs(value);
+    let s = "";
+    for (let i = 0; i < fraction.length; i++) {
+      s += (
+        digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]
+      ).replace(/零./, "");
+    }
+    s = s || "整";
+    n = Math.floor(n);
+    for (let i = 0; i < unit[0].length && n > 0; i++) {
+      let p = "";
+      for (let j = 0; j < unit[1].length && n > 0; j++) {
+        p = digit[n % 10] + unit[1][j] + p;
+        n = Math.floor(n / 10);
+      }
+      s = p.replace(/(零.)*零$/, "").replace(/^$/, "零") + unit[0][i] + s;
+    }
+    return (
+      head +
+      s
+        .replace(/(零.)*零元/, "元")
+        .replace(/(零.)+/g, "零")
+        .replace(/^整$/, "零元整")
+    );
+  },
+  /**
+   * 货币格式化
+   * @method currency
+   * @param {Number} 必选 value 数值
+   * @param {String} currencyUnit 货币符号
+   * @param {Number} decimals 小数位数
+   * @returns {String} 结果
+   */
+  currency(value, currencyUnit, decimals) {
+    value = parseFloat(value);
+    if (!isFinite(value) || (!value && value !== 0)) {
+      return "";
+    }
+    currencyUnit = currencyUnit != null ? currencyUnit : ""; //'¥'
+    decimals = decimals != null ? decimals : 2;
+    let stringified = Math.abs(value).toFixed(decimals);
+    let numInt = decimals ? stringified.slice(0, -1 - decimals) : stringified;
+    let i = numInt.length % 3;
+    let head = i > 0 ? numInt.slice(0, i) + (numInt.length > 3 ? "," : "") : "";
+    let numFloat = decimals ? stringified.slice(-1 - decimals) : "";
+    let sign = value < 0 ? "-" : "";
+    return (
+      sign +
+      currencyUnit +
+      head +
+      numInt.slice(i).replace(/(\d{3})(?=\d)/g, "$1,") +
+      numFloat
+    );
+  },
+  /**
+   * 地址格式化
+   * @method location
+   * @param {String} 必选 value 地址
+   * @param {Number} level 显示级别 默认切割后的长度
+   * @param {String} separator 分隔符 默认 ^
+   * @returns {String} 解析后地址
+   */
+  location(value, level, separator) {
+    if (value == null) {
+      return "";
+    }
+    value = String(value);
+    separator = separator != null ? separator : "^";
+    let addressRegion = value.split(separator);
+    level = level != null ? level : addressRegion.length;
+    let start = 0;
+    if (addressRegion[0] === addressRegion[1]) {
+      start = 1;
+    }
+    return addressRegion.slice(start, level).join("");
+  },
+  /**
+   * 过滤掉值为空字符的参数
+   * @method filterNullCharacter
+   * @param {Object} params 必选 参数
+   * @param {Boolean} excludeEmpty 是否排除空参数
+   * @returns {Object} 过滤后参数对象
+   */
+  filterNullCharacter(params, excludeEmpty) {
+    let obj = {};
+    if (typeof params === "object") {
+      Object.keys(params).forEach(key => {
+        params[key] =
+          typeof params[key] === "string" ? params[key].trim() : params[key];
+        if (excludeEmpty) {
+          if (params[key] !== "" && params[key] != null) {
+            obj[key] = params[key];
+          }
+        } else {
+          obj[key] = params[key];
+        }
+      });
+    }
+    return obj;
   }
 };
