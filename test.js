@@ -10,3 +10,7 @@ console.log(str3, "=>", converter.decodeHashString(str3))
 console.log("4、编码Hash对象为键值对字符串：")
 const str4 = { v: '1.0.0', name: 'converter' }
 console.log(str4, "=>", converter.encodeHashString(str4))
+const str5 = 'ABCDEfg'
+console.log(str5, "=>", converter.toFirstLowerCase(str5))
+const str6 = 'abCde'
+console.log(str6, "=>", converter.toFirstUpperCase(str6))

@@ -9,50 +9,11 @@
  *-------------------------
  * @author shlijian@ininin.com
  * @version 1.1.1
- * @since 2020/3/13
- * @description 添加首字母大写 / 首页母小写 / 大小写转换 / 全部大写 / 全部小写
+ * @since 2020/3/14
+ * @description 添加首字母大写 / 首页母小写
  */
 
 module.exports = {
-    /** 首字母大写 / 首页母小写 / 大小写转换 / 全部大写 / 全部小写
-     * @param  {str} 必选，字符串
-     * @param  {type} type:  1:首字母大写  2：首页母小写  3：大小写转换  4：全部大写  5：全部小写 默认4
-     * @return {String} 转换后的字符串
-     */
-    changeCase(str, type) {
-      type = type || 4;
-      switch (type) {
-        case 1:
-          return str.replace(/\b\w+\b/g, function(word) {
-            return (
-              word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()
-            );
-          });
-        case 2:
-          return str.replace(/\b\w+\b/g, function(word) {
-            return (
-              word.substring(0, 1).toLowerCase() + word.substring(1).toUpperCase()
-            );
-          });
-        case 3:
-          return str
-            .split("")
-            .map(function(word) {
-              if (/[a-z]/.test(word)) {
-                return word.toUpperCase();
-              } else {
-                return word.toLowerCase();
-              }
-            })
-            .join("");
-        case 4:
-          return str.toUpperCase();
-        case 5:
-          return str.toLowerCase();
-        default:
-          return str;
-      }
-    },
     /**
      * 首页母小写
      * @method toFirstLowerCase
@@ -60,7 +21,11 @@ module.exports = {
      * @returns {String} 转换后的字符串
      */
     toFirstLowerCase(str) {
-        return str;
+      return str.replace(/\b\w+\b/g, function(word) {
+        return (
+          word.substring(0, 1).toLowerCase() + word.substring(1).toUpperCase()
+        );
+      });
     },
     /**
      * 首字母大写
@@ -69,7 +34,11 @@ module.exports = {
      * @returns {String} 转换后的字符串
      */
     toFirstUpperCase(str) {
-        return str;
+      return str.replace(/\b\w+\b/g, function(word) {
+        return (
+          word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()
+        );
+      });
     },
     /**
      * 字符串或数字转半角
