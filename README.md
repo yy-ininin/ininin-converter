@@ -38,3 +38,8 @@ converter.toFirstUpperCase(str5)
 const str6 = "AAAA"
 converter.toFirstLowerCase(str6)
 // aAAA
+
+/* 去除字符串中所有空格 */
+let str1 = " A A "
+validator.trimAll(str1, 1)
+// "AA"

@@ -14,3 +14,5 @@ const str5 = 'ABCDEfg'
 console.log(str5, "=>", converter.toFirstLowerCase(str5))
 const str6 = 'abCde'
 console.log(str6, "=>", converter.toFirstUpperCase(str6))
+const str7 = '啊 a 是   '
+console.log(str7, "=>", converter.trimAll(str7))
