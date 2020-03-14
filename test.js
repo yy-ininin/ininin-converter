@@ -20,7 +20,7 @@ console.log("7、去除字符串中所有空格：")
 const str7 = '啊 a 是   '
 console.log(str7, "=>", converter.trimAll(str7))
 console.log("8、货币格式化: ")
-console.log("123456789", "=>", converter.currency(123456789, '¥', 2))
+console.log("123456789", "=>", converter.currency(123456789))
 console.log("9、地址格式化: ")
 console.log("上海市^上海市^闵行区^七宝街道", "=>", converter.location("上海市^上海市^闵行区^七宝街道", 4, "^"))
 console.log("10、过滤掉值为空字符的参数: ")

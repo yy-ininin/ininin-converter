@@ -45,8 +45,8 @@ converter.trimAll(str7, 1)
 // "AA"
 
 /* 货币格式化 */
-converter.currency(123456789, '¥', 2)
-// ¥123,456,789.00
+converter.currency(123456789)
+// CN¥123,456,789.00
 
 /* 地址格式化 */
 let str8 = "上海市^上海市^闵行区^七宝街道"

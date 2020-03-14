@@ -10,7 +10,7 @@
  * @author shlijian@ininin.com
  * @version 1.1.1
  * @since 2020/3/14
- * @description 添加首字母大写 / 首页母小写 / 去除字符串中所有空格 / 地址格式化 / 货币格式化 / 过滤掉值为空字符的参数 / 人民币大写 
+ * @description 添加首字母大写 / 首页母小写 / 去除字符串中所有空格 / 地址格式化 / 货币格式化 / 过滤掉值为空字符的参数 / 人民币大写
  */
 
 module.exports = {
@@ -67,16 +67,16 @@ module.exports = {
     let hashs = {};
     let reg = new RegExp(
       "(^|" +
-        (sign || "&") +
-        ")([^" +
-        (flag || "=") +
-        "]*)" +
-        (flag || "=") +
-        "([^" +
-        (sign || "&") +
-        "]*)(" +
-        (sign || "&") +
-        "|$)",
+      (sign || "&") +
+      ")([^" +
+      (flag || "=") +
+      "]*)" +
+      (flag || "=") +
+      "([^" +
+      (sign || "&") +
+      "]*)(" +
+      (sign || "&") +
+      "|$)",
       "i"
     );
     for (let i = 0, l = arr.length; i < l; i++) {
@@ -102,10 +102,10 @@ module.exports = {
       if (hashs.hasOwnProperty && hashs.hasOwnProperty(key)) {
         arr.push(
           key +
-            (flag == null ? "=" : flag) +
-            encodeURIComponent(
-              decodeURIComponent(hashs[key] == null ? "" : hashs[key])
-            )
+          (flag == null ? "=" : flag) +
+          encodeURIComponent(
+            decodeURIComponent(hashs[key] == null ? "" : hashs[key])
+          )
         );
       }
     }
@@ -127,7 +127,7 @@ module.exports = {
    * @returns {String} 转换后的字符串
    */
   toFirstLowerCase(str) {
-    return str.replace(/\b\w+\b/g, function(word) {
+    return str.replace(/\b\w+\b/g, function (word) {
       return (
         word.substring(0, 1).toLowerCase() + word.substring(1).toUpperCase()
       );
@@ -140,7 +140,7 @@ module.exports = {
    * @returns {String} 转换后的字符串
    */
   toFirstUpperCase(str) {
-    return str.replace(/\b\w+\b/g, function(word) {
+    return str.replace(/\b\w+\b/g, function (word) {
       return (
         word.substring(0, 1).toUpperCase() + word.substring(1).toLowerCase()
       );
@@ -149,18 +149,18 @@ module.exports = {
   /**
    * 人民币大写
    * @method rmbUpperCase
-   * @param {String} str 必选 阿拉伯数字金额
+   * @param {String, Number} n 必选 阿拉伯数字金额
    * @returns {String} 大写金额
    */
-  rmbUpperCase(value) {
+  rmbUpperCase(n) {
     let fraction = ["角", "分"]; // 小数
     let digit = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"]; //数字
     let unit = [
       ["元", "万", "亿"],
       ["", "拾", "佰", "仟"]
-    ]; // 单位 
-    let head = value < 0 ? "欠" : ""; // 正负
-    n = Math.abs(value);
+    ]; // 单位
+    let head = n < 0 ? "欠" : ""; // 正负
+    n = Math.abs(n);
     let s = "";
     for (let i = 0; i < fraction.length; i++) {
       s += (
@@ -189,30 +189,13 @@ module.exports = {
    * 货币格式化
    * @method currency
    * @param {Number} 必选 value 数值
-   * @param {String} currencyUnit 货币符号
-   * @param {Number} decimals 小数位数
    * @returns {String} 结果
    */
-  currency(value, currencyUnit, decimals) {
-    value = parseFloat(value);
-    if (!isFinite(value) || (!value && value !== 0)) {
-      return "";
-    }
-    currencyUnit = currencyUnit != null ? currencyUnit : ""; //'¥'
-    decimals = decimals != null ? decimals : 2;
-    let stringified = Math.abs(value).toFixed(decimals);
-    let numInt = decimals ? stringified.slice(0, -1 - decimals) : stringified;
-    let i = numInt.length % 3;
-    let head = i > 0 ? numInt.slice(0, i) + (numInt.length > 3 ? "," : "") : "";
-    let numFloat = decimals ? stringified.slice(-1 - decimals) : "";
-    let sign = value < 0 ? "-" : "";
-    return (
-      sign +
-      currencyUnit +
-      head +
-      numInt.slice(i).replace(/(\d{3})(?=\d)/g, "$1,") +
-      numFloat
-    );
+  currency(value) {
+    return Number.prototype.toLocaleString.call(Number(value || 0), undefined, {
+      style: "currency",
+      currency: "CNY"
+    });
   },
   /**
    * 地址格式化
