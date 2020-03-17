@@ -60,8 +60,8 @@ converter.filterNullCharacter(str9, true)
 
 /* 人民币大写 */
 let str10 = 123456789.11
-converter.rmbUpperCase(str10)
-// 壹亿贰仟叁佰肆拾伍万陆仟柒佰捌拾玖元壹分
+converter.rmbUpperCase(str10, true)
+// 壹亿贰仟叁佰肆拾伍万陆仟柒佰捌拾玖元零壹分
 let str11 = -123456789.11
 converter.rmbUpperCase(str11)
 //欠壹亿贰仟叁佰肆拾伍万陆仟柒佰捌拾玖元壹角壹分

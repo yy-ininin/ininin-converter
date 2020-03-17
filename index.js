@@ -65,20 +65,7 @@ module.exports = {
   decodeHashString(str, sign, flag) {
     let arr = str ? str.split(sign == null ? "&" : sign) : [];
     let hashs = {};
-    let reg = new RegExp(
-      "(^|" +
-      (sign || "&") +
-      ")([^" +
-      (flag || "=") +
-      "]*)" +
-      (flag || "=") +
-      "([^" +
-      (sign || "&") +
-      "]*)(" +
-      (sign || "&") +
-      "|$)",
-      "i"
-    );
+    let reg = new RegExp("(^|" + (sign || "&") + ")([^" + (flag || "=") + "]*)" + (flag || "=") + "([^" + (sign || "&") + "]*)(" + (sign || "&") + "|$)", "i");
     for (let i = 0, l = arr.length; i < l; i++) {
       let parts = arr[i].match(reg) || [];
       if (parts[2] != null && parts[2] !== "") {
@@ -101,11 +88,7 @@ module.exports = {
     for (let key in hashs) {
       if (hashs.hasOwnProperty && hashs.hasOwnProperty(key)) {
         arr.push(
-          key +
-          (flag == null ? "=" : flag) +
-          encodeURIComponent(
-            decodeURIComponent(hashs[key] == null ? "" : hashs[key])
-          )
+          key + (flag == null ? "=" : flag) + encodeURIComponent(decodeURIComponent(hashs[key] == null ? "" : hashs[key]))
         );
       }
     }
@@ -150,39 +133,39 @@ module.exports = {
    * 人民币大写
    * @method rmbUpperCase
    * @param {String, Number} n 必选 阿拉伯数字金额
+   * @param {Boolean} hasZero 小数位是否需要零，  100.01  -> 壹佰元零壹分
    * @returns {String} 大写金额
    */
-  rmbUpperCase(n) {
+  rmbUpperCase(n, hasZero = false) {
     let fraction = ["角", "分"]; // 小数
     let digit = ["零", "壹", "贰", "叁", "肆", "伍", "陆", "柒", "捌", "玖"]; //数字
     let unit = [
       ["元", "万", "亿"],
       ["", "拾", "佰", "仟"]
     ]; // 单位
-    let head = n < 0 ? "欠" : ""; // 正负
-    n = Math.abs(n);
+    let head = n < 0 ? "欠" : ""; // 如果是负数 为欠
+    n = Math.abs(n); // 取绝对值
     let s = "";
     for (let i = 0; i < fraction.length; i++) {
-      s += (
-        digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]
-      ).replace(/零./, "");
+      if (hasZero) {
+        s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]);
+      } else {
+        s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, ""); // Math.floor(n * 10 * Math.pow(10, i)) % 10 获取小数位数字
+      }
     }
     s = s || "整";
-    n = Math.floor(n);
+    n = Math.floor(n); // 取整数
     for (let i = 0; i < unit[0].length && n > 0; i++) {
       let p = "";
       for (let j = 0; j < unit[1].length && n > 0; j++) {
         p = digit[n % 10] + unit[1][j] + p;
         n = Math.floor(n / 10);
       }
+      debugger
       s = p.replace(/(零.)*零$/, "").replace(/^$/, "零") + unit[0][i] + s;
     }
     return (
-      head +
-      s
-        .replace(/(零.)*零元/, "元")
-        .replace(/(零.)+/g, "零")
-        .replace(/^整$/, "零元整")
+      head + s.replace(/(零.)*零元/, "元").replace(/(零.)+/g, "零").replace(/^整$/, "零元整")
     );
   },
   /**

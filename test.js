@@ -27,5 +27,5 @@ console.log("10、过滤掉值为空字符的参数: ")
 const str9 = {name: '你好', value: '', id: 1, code: '', age: '23', nobby: ['吃饭', '打游戏']}
 console.log(str9, "=>", converter.filterNullCharacter(str9, true))
 console.log("11、人民币大写: ")
-console.log(123456789.11, converter.rmbUpperCase(123456789.01))
+console.log(123456789.11, converter.rmbUpperCase(123456789.01, 11))
 console.log(-123456789.11, converter.rmbUpperCase(-123456789.11))
